@@ -1,0 +1,811 @@
+<!doctype html>
+<!-- The lang/dir on <html> are the master switch for the whole site.
+     They are set before first paint by the inline script below. -->
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ==========================================================================
+     SEO / SOCIAL  —  CUSTOMIZE
+     The Hebrew title/description live in assets/js/main.js (LANG_META) and are
+     swapped in when the visitor switches language.
+     ========================================================================== -->
+<title>Shahar Brook — Ship AI-generated code safely</title>
+<meta name="description" content="Senior engineer helping teams ship AI-generated code safely: code review, security checks, and the agents and guardrails that keep a codebase clean. Also builds CRMs, products and landing pages.">
+<link rel="canonical" href="https://shaharbrook.github.io/">
+<link rel="alternate" hreflang="en" href="https://shaharbrook.github.io/?lang=en">
+<link rel="alternate" hreflang="he" href="https://shaharbrook.github.io/?lang=he">
+<link rel="alternate" hreflang="x-default" href="https://shaharbrook.github.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shaharbrook.github.io/">
+<meta property="og:title" content="Shahar Brook — Ship AI-generated code safely">
+<meta property="og:description" content="Senior code review, security checks and guardrails for AI-generated code. Plus full product, CRM and website builds.">
+<meta property="og:image" content="https://shaharbrook.github.io/assets/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="theme-color" content="#0c1116" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfc" media="(prefers-color-scheme: light)">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/styles.css">
+
+<!-- ==========================================================================
+     Runs before first paint, so the page never flashes the wrong language or
+     the wrong text direction.
+
+     Priority: ?lang= in the URL  >  saved choice  >  browser language  >  English.
+     ========================================================================== -->
+<script>
+(function () {
+  var root = document.documentElement;
+
+  // Scroll-reveal opt-in. The load handler is a failsafe: if main.js fails to
+  // load, we drop the flag so nothing is left invisible.
+  root.classList.add('js');
+  addEventListener('load', function () {
+    if (!window.__revealReady) root.classList.remove('js');
+  });
+
+  var q = (location.search.match(/[?&]lang=(en|he)\b/) || [])[1];
+  var saved = null;
+  try { saved = localStorage.getItem('lang'); } catch (e) { /* private mode */ }
+  var browser = (navigator.language || '').toLowerCase();
+
+  var lang = q || saved || (browser.indexOf('he') === 0 ? 'he' : 'en');
+  root.lang = lang;
+  root.dir = lang === 'he' ? 'rtl' : 'ltr';
+})();
+</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main" lang="en">Skip to content</a>
+<a class="skip-link" href="#main" lang="he">דילוג לתוכן</a>
+
+<!-- ==========================================================================
+     HEADER
+     ========================================================================== -->
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a class="wordmark" href="#top">
+      <span class="wordmark-mark" aria-hidden="true"></span>
+      <span lang="en">Shahar&nbsp;Brook</span>
+      <span lang="he">שחר&nbsp;ברוק</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      <ul>
+        <li><a href="#services" lang="en">What I do</a><a href="#services" lang="he">מה אני עושה</a></li>
+        <li><a href="#work" lang="en">Selected work</a><a href="#work" lang="he">עבודות נבחרות</a></li>
+        <li><a href="#about" lang="en">About</a><a href="#about" lang="he">מי אני</a></li>
+      </ul>
+    </nav>
+
+    <!-- Language switch. Real links, so they work with JavaScript disabled;
+         main.js intercepts the click and swaps in place instead of reloading. -->
+    <div class="lang-switch" role="group" aria-label="Language / שפה">
+      <a class="lang-btn" href="?lang=en" data-lang="en" hreflang="en" lang="en">EN</a>
+      <a class="lang-btn" href="?lang=he" data-lang="he" hreflang="he" lang="he">עב</a>
+    </div>
+
+    <!-- Header CTA goes straight to WhatsApp — one tap from any scroll position. -->
+    <a class="btn btn-sm btn-primary header-cta" href="https://wa.me/972544994592?text=Hi%20Shahar%20%E2%80%94%20I%20found%20your%20site.%20What%20I%20need%20help%20with%3A" lang="en">WhatsApp</a>
+    <a class="btn btn-sm btn-primary header-cta" href="https://wa.me/972544994592?text=%D7%94%D7%99%D7%99%20%D7%A9%D7%97%D7%A8%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8.%20%D7%9E%D7%94%20%D7%A9%D7%90%D7%A0%D7%99%20%D7%A6%D7%A8%D7%99%D7%9A%3A" lang="he">וואטסאפ</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ========================================================================
+       1. HERO
+       The headline leads with the outcome, not the job title.
+       Every block below exists twice: lang="en" and lang="he". CSS hides
+       whichever one does not match <html lang>. Keep them next to each other.
+       ======================================================================== -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <p class="eyebrow" lang="en">Freelance senior software engineer</p>
+      <p class="eyebrow" lang="he">מהנדס תוכנה בכיר · פרילנס</p>
+
+      <!-- Two block lines rather than a hard <br>, so each half can wrap on
+           its own on a narrow phone. The nowrap span stops "AI-generated"
+           breaking after the hyphen. -->
+      <h1 class="hero-title" lang="en">
+        <span class="hero-line">Ship <span class="nowrap">AI-generated</span> code</span>
+        <span class="hero-line accent-text">without shipping the risk.</span>
+      </h1>
+      <h1 class="hero-title" lang="he">
+        <span class="hero-line">קוד שנכתב ב־AI</span>
+        <span class="hero-line accent-text">בלי הסיכון שבא איתו.</span>
+      </h1>
+
+      <!-- One sentence. Resist adding a second — this is the line that has to
+           land in the first few seconds. -->
+      <p class="hero-sub" lang="en">
+        Your team ships code faster than it can review it. I do the senior review, catch
+        the security holes, and build the guardrails that keep your codebase clean at scale.
+      </p>
+      <p class="hero-sub" lang="he">
+        הצוות שלכם כותב קוד מהר יותר משהוא מספיק לבדוק אותו. אני עושה את ה־review הבכיר,
+        מוצא את חורי האבטחה, ובונה את מנגנוני הבקרה ששומרים על הקוד נקי גם כשגדלים.
+      </p>
+
+      <div class="hero-actions">
+        <!-- PRIMARY CTA — WhatsApp. Lowest-friction channel for this market:
+             one tap on a phone and the conversation has already started.
+             CUSTOMIZE: the number lives in the wa.me/ URL, international
+             format, no "+" and no leading zero (Israel = 972...). -->
+        <a class="btn btn-primary btn-lg" href="https://wa.me/972544994592?text=Hi%20Shahar%20%E2%80%94%20I%20found%20your%20site.%20What%20I%20need%20help%20with%3A" lang="en">
+          Message me on WhatsApp
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/><path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.2-.5-.4Z"/></svg>
+        </a>
+        <a class="btn btn-primary btn-lg" href="https://wa.me/972544994592?text=%D7%94%D7%99%D7%99%20%D7%A9%D7%97%D7%A8%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8.%20%D7%9E%D7%94%20%D7%A9%D7%90%D7%A0%D7%99%20%D7%A6%D7%A8%D7%99%D7%9A%3A" lang="he">
+          דברו איתי בוואטסאפ
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/><path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.2-.5-.4Z"/></svg>
+        </a>
+
+        <!-- SECONDARY CTA — email, for anyone who wants to send detail. -->
+        <a class="btn btn-ghost btn-lg" href="mailto:bro.shahar@gmail.com?subject=Project%20enquiry" lang="en">
+          Email me
+          <svg class="btn-icon btn-icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5.5 15.5 10 11 14.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn-ghost btn-lg" href="mailto:bro.shahar@gmail.com?subject=%D7%A4%D7%A0%D7%99%D7%99%D7%94%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8" lang="he">
+          שלחו לי מייל
+          <svg class="btn-icon btn-icon-arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5.5 15.5 10 11 14.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- Credibility strip. Three short proof points, no fluff. The third one
+           is doing real work: it tells a founder who needs a whole product
+           built that they are also in the right place. -->
+      <ul class="hero-proof">
+        <li lang="en">10+ years shipping production software</li>
+        <li lang="he">מעל 10 שנות פיתוח במערכות פרודקשן</li>
+        <li lang="en">IDF technology unit · developer, commander, instructor</li>
+        <li lang="he">יחידה טכנולוגית בצה״ל · מפתח, מפקד ומדריך</li>
+        <li lang="en">Also builds CRMs, products &amp; websites</li>
+        <li lang="he">בונה גם CRM, מוצרים ואתרים</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       2. WHAT I DO
+       Four services. Each is one outcome sentence + three concrete deliverables.
+       To add a service, copy one <article class="card reveal"> block — remember
+       to copy both the lang="en" and lang="he" lines inside it.
+       ======================================================================== -->
+  <section class="section" id="services">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow" lang="en">What I do</p>
+        <p class="eyebrow" lang="he">מה אני עושה</p>
+
+        <h2 class="section-title" lang="en">Four ways I get brought in</h2>
+        <h2 class="section-title" lang="he">ארבע דרכים שבהן אני נכנס לתמונה</h2>
+
+        <p class="section-lead" lang="en">Usually it starts with a review and ends with me building something.</p>
+        <p class="section-lead" lang="he">בדרך כלל זה מתחיל ב־review ונגמר בזה שאני בונה משהו.</p>
+      </header>
+
+      <div class="grid grid-services">
+
+        <article class="card reveal">
+          <span class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.2 3.1 7.6 8 9 4.9-1.4 8-4.8 8-9V6l-8-3Z"/><path d="m8.8 11.8 2.2 2.2 4.2-4.4"/></svg>
+          </span>
+          <h3 class="card-title" lang="en">Code review &amp; security for AI-generated code</h3>
+          <h3 class="card-title" lang="he">Review ואבטחה לקוד שנכתב ב־AI</h3>
+
+          <p class="card-body" lang="en">
+            AI writes plausible code, not correct code. I read it the way an attacker
+            and a maintainer both would, and tell you exactly what to fix first.
+          </p>
+          <p class="card-body" lang="he">
+            AI כותב קוד שנראה נכון, לא קוד שהוא נכון. אני קורא אותו גם כמי שתוקף אותו
+            וגם כמי שיתחזק אותו, ואומר לכם בדיוק מה לתקן קודם.
+          </p>
+
+          <ul class="card-list">
+            <li lang="en">Line-level PR review with severity and fix</li>
+            <li lang="he">Review ברמת השורה, עם חומרה ותיקון</li>
+            <li lang="en">Auth, input handling, secrets, dependency risk</li>
+            <li lang="he">הרשאות, טיפול בקלט, סודות וסיכוני תלויות</li>
+            <li lang="en">A written report you can act on, not a vibe check</li>
+            <li lang="he">דוח כתוב שאפשר לפעול לפיו, לא תחושת בטן</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <span class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="M9 12v2M15 12v2M12 3v4"/><circle cx="12" cy="3" r="1.2"/></svg>
+          </span>
+          <h3 class="card-title" lang="en">AI agents, rules &amp; guardrails</h3>
+          <h3 class="card-title" lang="he">סוכני AI, חוקים ומעקות בטיחות</h3>
+
+          <p class="card-body" lang="en">
+            One review helps once. Guardrails help every commit. I encode your standards
+            so the AI follows them by default and CI catches what slips through.
+          </p>
+          <p class="card-body" lang="he">
+            Review אחד עוזר פעם אחת. מעקות עוזרים בכל commit. אני מקודד את הסטנדרטים
+            שלכם כך שה־AI עוקב אחריהם כברירת מחדל, וה־CI תופס את מה שמחליק.
+          </p>
+
+          <ul class="card-list">
+            <li lang="en">Agent + rule files tuned to your stack</li>
+            <li lang="he">קבצי agent ו־rules מותאמים ל־stack שלכם</li>
+            <li lang="en">Automated review and security gates in CI</li>
+            <li lang="he">שערי review ואבטחה אוטומטיים ב־CI</li>
+            <li lang="en">Conventions your team and your tools both respect</li>
+            <li lang="he">קונבנציות שגם הצוות וגם הכלים מכבדים</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <span class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3Z"/><path d="M8 9h8M8 13h5"/></svg>
+          </span>
+          <h3 class="card-title" lang="en">Product &amp; CRM builds</h3>
+          <h3 class="card-title" lang="he">מוצרים ומערכות CRM</h3>
+
+          <p class="card-body" lang="en">
+            Internal tools that people actually use. I design the data model first,
+            because that is the decision you cannot cheaply undo later.
+          </p>
+          <p class="card-body" lang="he">
+            כלים פנימיים שאנשים באמת משתמשים בהם. אני מתחיל ממודל הנתונים, כי זו
+            ההחלטה שהכי יקר לשנות אחר כך.
+          </p>
+
+          <ul class="card-list">
+            <li lang="en">CRMs, dashboards, ops and back-office tools</li>
+            <li lang="he">CRM, דשבורדים וכלי תפעול</li>
+            <li lang="en">Roles, permissions and audit trails from day one</li>
+            <li lang="he">תפקידים, הרשאות ו־audit trail מהיום הראשון</li>
+            <li lang="en">Built to hand over, not to lock you in</li>
+            <li lang="he">בנוי כדי להימסר, לא כדי לנעול אתכם</li>
+          </ul>
+        </article>
+
+        <article class="card reveal">
+          <span class="card-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3Z"/><path d="M3 9h18"/><path d="M7 6.01v.01"/></svg>
+          </span>
+          <h3 class="card-title" lang="en">Landing pages &amp; websites</h3>
+          <h3 class="card-title" lang="he">דפי נחיתה ואתרים</h3>
+
+          <p class="card-body" lang="en">
+            Fast, accessible pages built to convert — not a template with your logo
+            dropped on it. Scores green on Lighthouse because of how it is built.
+          </p>
+          <p class="card-body" lang="he">
+            דפים מהירים ונגישים שבנויים להמיר — לא תבנית עם הלוגו שלכם עליה.
+            ירוק ב־Lighthouse בזכות איך שהם בנויים.
+          </p>
+
+          <ul class="card-list">
+            <li lang="en">Copy structured around one clear action</li>
+            <li lang="he">תוכן שבנוי סביב פעולה אחת ברורה</li>
+            <li lang="en">Sub-second loads, mobile-first, real accessibility</li>
+            <li lang="he">טעינה מתחת לשנייה, mobile-first, נגישות אמיתית</li>
+            <li lang="en">Analytics and forms wired up before launch</li>
+            <li lang="he">אנליטיקס וטפסים מחוברים עוד לפני העלייה לאוויר</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       3. SELECTED WORK  —  the most important section
+       Each case study follows the same four beats: Problem, Built, Decisions, Result.
+       TO ADD A PROJECT: copy one whole <article class="case reveal"> block.
+       Nothing else needs to change — the layout handles any number of cards.
+       ======================================================================== -->
+  <section class="section section-alt" id="work">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow" lang="en">Selected work</p>
+        <p class="eyebrow" lang="he">עבודות נבחרות</p>
+
+        <h2 class="section-title" lang="en">Problems, decisions, results</h2>
+        <h2 class="section-title" lang="he">בעיות, החלטות, תוצאות</h2>
+
+        <p class="section-lead" lang="en">
+          The interesting part of a project is never the framework. It is the decision
+          made under a constraint. Here are a few of mine.
+        </p>
+        <p class="section-lead" lang="he">
+          החלק המעניין בפרויקט הוא אף פעם לא ה־framework. הוא ההחלטה שהתקבלה תחת אילוץ.
+          הנה כמה משלי.
+        </p>
+      </header>
+
+      <div class="cases">
+
+        <!-- ---------------- CASE STUDY 1 — GREENROOM ----------------
+             Written from greenroom-case-study.md. Every claim here is checkable
+             against the repo — keep it that way. The three code-level claims
+             (CASL conditions as Prisma where fragments, opaque rotating refresh
+             tokens, Zod->OpenAPI->client) are the ones a technical founder will
+             probe, and they are the reason this card sells the review service.
+             ---------------------------------------------------------- -->
+        <article class="case reveal">
+          <div class="case-head">
+            <div>
+              <h3 class="case-title" lang="en">Greenroom — client &amp; campaign platform for a creative studio</h3>
+              <h3 class="case-title" lang="he">Greenroom — פלטפורמת לקוחות וקמפיינים לסטודיו יצירתי</h3>
+              <p class="case-role" lang="en">Architecture, build, security &amp; deploy</p>
+              <p class="case-role" lang="he">ארכיטקטורה, פיתוח, אבטחה והעלאה לאוויר</p>
+              <a class="case-link" href="https://crm.lrdigital-marketing.com/" target="_blank" rel="noopener" lang="en">
+                crm.lrdigital-marketing.com <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3H3v10h10v-3M9.5 2.5H14V7M13.5 3 8 8.5"/></svg>
+              </a>
+              <a class="case-link" href="https://crm.lrdigital-marketing.com/" target="_blank" rel="noopener" lang="he">
+                crm.lrdigital-marketing.com <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3H3v10h10v-3M9.5 2.5H14V7M13.5 3 8 8.5"/></svg>
+              </a>
+            </div>
+            <ul class="tags" aria-label="Technologies">
+              <li class="tag">TypeScript</li>
+              <li class="tag">NestJS · Postgres</li>
+              <li class="tag">React 19</li>
+              <li class="tag">647 tests</li>
+            </ul>
+          </div>
+
+          <div class="case-grid">
+            <div class="case-block">
+              <h4 class="case-label" lang="en">The problem</h4>
+              <h4 class="case-label" lang="he">הבעיה</h4>
+              <p lang="en">
+                A studio running campaigns for many clients holds the most sensitive thing each
+                of those clients owns — their footage, their spend, their numbers. It also has
+                to let those clients log in to review work, and that is the hard part: every
+                external login is another route by which one client's data could reach another.
+              </p>
+              <p lang="he">
+                סטודיו שמנהל קמפיינים לכמה לקוחות מחזיק בדבר הרגיש ביותר שיש לכל אחד מהם —
+                החומרים, התקציב והמספרים שלו. הוא גם צריך לתת לאותם לקוחות להיכנס ולאשר
+                עבודות, וזה החלק הקשה: כל התחברות חיצונית היא עוד דרך שבה נתונים של לקוח אחד
+                עלולים להגיע לאחר.
+              </p>
+            </div>
+
+            <div class="case-block">
+              <h4 class="case-label" lang="en">What I built</h4>
+              <h4 class="case-label" lang="he">מה בניתי</h4>
+              <p lang="en">
+                Clients, campaigns, tasks across kanban/list/calendar views, a file repository
+                with video streaming, threaded review comments, a finance ledger and an in-app
+                AI assistant — in a bilingual Hebrew/RTL interface. A TypeScript monorepo:
+                NestJS 11 and PostgreSQL/Prisma behind React 19, shipped as a single Docker
+                image. Roughly 46k lines, 31 data models, 108 API operations.
+              </p>
+              <p lang="he">
+                לקוחות, קמפיינים, משימות בתצוגות קנבן/רשימה/לוח שנה, מאגר קבצים עם סטרימינג
+                וידאו, שרשורי הערות, ספר חשבונות פיננסי ועוזר AI מוטמע — בממשק דו־לשוני
+                בעברית ובכתיב מימין לשמאל. מונורפו ב־TypeScript: NestJS 11 ו־PostgreSQL/Prisma
+                מאחורי React 19, נשלח כאימג' Docker אחד. כ־46 אלף שורות, 31 מודלי נתונים,
+                108 פעולות API.
+              </p>
+            </div>
+
+            <div class="case-block case-block-wide">
+              <h4 class="case-label" lang="en">Key decisions</h4>
+              <h4 class="case-label" lang="he">ההחלטות המרכזיות</h4>
+              <ul class="case-decisions">
+                <li lang="en">
+                  <strong>Authorization rules double as database query filters.</strong>
+                  A permission rule's conditions are Prisma <code>where</code> fragments, so the
+                  rule that answers "may this user edit this record?" <em>is</em> the filter on
+                  the list query. A list endpoint and a per-record check cannot disagree, because
+                  they are the same rule. External clients are default-deny and permitted
+                  positively — the finance ledger has no rule under any flag, so it is
+                  structurally unreachable rather than merely hidden.
+                </li>
+                <li lang="he">
+                  <strong>כללי ההרשאות משמשים גם כמסנני שאילתות במסד הנתונים.</strong>
+                  התנאים של כלל הרשאה הם קטעי <code>where</code> של Prisma, כך שהכלל שעונה על
+                  "האם המשתמש הזה יכול לערוך את הרשומה?" <em>הוא</em> המסנן של שאילתת הרשימה.
+                  בדיקה נקודתית ורשימה לא יכולות לסתור זו את זו, כי הן אותו כלל. לקוחות
+                  חיצוניים חסומים כברירת מחדל ומקבלים היתרים מפורשים בלבד — לספר החשבונות אין
+                  כלל באף דגל, ולכן הוא בלתי נגיש מבנית ולא רק מוסתר.
+                </li>
+                <li lang="en">
+                  <strong>No passwords, and no token an XSS payload can read.</strong>
+                  Google sign-in only; access tokens live in memory, never in
+                  <code>localStorage</code>. The refresh token is deliberately not a JWT — 256
+                  bits of opaque entropy stored only as a SHA-256 digest, so a database dump
+                  hands out no live sessions. It rotates on every use, and presenting an
+                  already-rotated token revokes the entire token family.
+                </li>
+                <li lang="he">
+                  <strong>בלי סיסמאות, ובלי טוקן שקוד XSS יכול לקרוא.</strong>
+                  התחברות דרך Google בלבד; טוקני הגישה נשמרים בזיכרון, לא ב־<code>localStorage</code>.
+                  טוקן הרענון הוא בכוונה לא JWT — 256 ביט של אנטרופיה אטומה שנשמרת רק כתקציר
+                  SHA-256, כך שהדלפת מסד נתונים לא מחלקת סשנים חיים. הוא מתחלף בכל שימוש,
+                  והצגה של טוקן שכבר הוחלף מבטלת את כל משפחת הטוקנים.
+                </li>
+                <li lang="en">
+                  <strong>One contract, from the database to the browser.</strong>
+                  Shared Zod schemas derive the API's DTOs, which produce the OpenAPI document,
+                  which generates the browser's typed client. Change a field once and the
+                  compiler finds every consumer — there is no hand-written type on either side
+                  of the wire to drift. Soft delete works the same way: a Prisma client
+                  extension rewrites deletes and folds the filter into every read, so a service
+                  that forgets a <code>where</code> clause cannot resurrect deleted rows.
+                </li>
+                <li lang="he">
+                  <strong>חוזה אחד, ממסד הנתונים ועד לדפדפן.</strong>
+                  סכמות Zod משותפות מגדירות את ה־DTOs של ה־API, שמייצרים את מסמך ה־OpenAPI,
+                  שממנו נוצר קליינט מוטיפס לדפדפן. משנים שדה פעם אחת והקומפיילר מוצא כל צרכן —
+                  אין טיפוס שנכתב ביד באף צד של החוט שיכול לסטות. מחיקה רכה עובדת באותו אופן:
+                  הרחבת קליינט של Prisma משנה מחיקות ומשלבת את הסינון בכל קריאה, כך ששירות
+                  ששוכח <code>where</code> לא יכול להחיות שורות מחוקות.
+                </li>
+                <li lang="en">
+                  <strong>Multi-gigabyte video uploads — and the bug underneath them.</strong>
+                  Large files go through resumable chunked sessions: chunks written to shared
+                  storage so a load balancer cannot split a transfer, per-chunk length
+                  verification because a truncated chunk recorded as complete yields a file of
+                  the right size that is quietly corrupt, and idempotent completion. The real
+                  cause of "large uploads fail sometimes" was Node's
+                  <code>server.requestTimeout</code> — a five-minute default that silently caps
+                  how long any upload may take however healthy the transfer is, and reaches the
+                  browser as a connection error with no status.
+                </li>
+                <li lang="he">
+                  <strong>העלאות וידאו בגודל ג'יגה־בייטים — והבאג שמתחת להן.</strong>
+                  קבצים גדולים עוברים בסשנים מקוטעים שניתן להמשיך: הקטעים נכתבים לאחסון משותף
+                  כדי שמאזן עומסים לא יפצל העברה, אורך כל קטע מאומת כי קטע קטוע שנרשם כהושלם
+                  מייצר קובץ בגודל הנכון שפשוט פגום, וההשלמה אידמפוטנטית. הסיבה האמיתית
+                  ל"העלאות גדולות נכשלות לפעמים" הייתה <code>server.requestTimeout</code> של
+                  Node — ברירת מחדל של חמש דקות שחוסמת בשקט את משך ההעלאה, בלי קשר לבריאות
+                  ההעברה, ומגיעה לדפדפן כשגיאת חיבור בלי סטטוס.
+                </li>
+              </ul>
+            </div>
+
+            <div class="case-block case-block-wide">
+              <h4 class="case-label" lang="en">Result</h4>
+              <h4 class="case-label" lang="he">התוצאה</h4>
+              <p class="case-result" lang="en">
+                In production, in daily use by the studio team — including from a phone on set.
+                647 automated tests across five suites, including API end-to-end against a real
+                PostgreSQL instance with Prisma never mocked, and a dedicated Hebrew RTL browser
+                suite.
+              </p>
+              <p class="case-result" lang="he">
+                בפרודקשן, בשימוש יומי של צוות הסטודיו — כולל מהטלפון בזמן צילומים. 647 בדיקות
+                אוטומטיות בחמש חבילות, כולל בדיקות API מקצה לקצה מול מופע PostgreSQL אמיתי בלי
+                למוק את Prisma, וחבילת בדיקות דפדפן נפרדת ל־RTL בעברית.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- ---------------- CASE STUDY 2 — LANDING PAGE ---------------- -->
+        <article class="case reveal">
+          <div class="case-head">
+            <div>
+              <h3 class="case-title" lang="en">Landing page for L.R Digital Marketing</h3>
+              <h3 class="case-title" lang="he">דף נחיתה ל־L.R Digital Marketing</h3>
+              <p class="case-role" lang="en">Technical partner &middot; design, content structure, build &amp; hosting</p>
+              <p class="case-role" lang="he">שותף טכנולוגי &middot; עיצוב, מבנה תוכן, פיתוח ואחסון</p>
+              <a class="case-link" href="https://lrdigital-marketing.com/" target="_blank" rel="noopener" lang="en">
+                lrdigital-marketing.com <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3H3v10h10v-3M9.5 2.5H14V7M13.5 3 8 8.5"/></svg>
+              </a>
+              <a class="case-link" href="https://lrdigital-marketing.com/" target="_blank" rel="noopener" lang="he">
+                lrdigital-marketing.com <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3H3v10h10v-3M9.5 2.5H14V7M13.5 3 8 8.5"/></svg>
+              </a>
+            </div>
+            <ul class="tags" aria-label="Technologies">
+              <li class="tag">Hebrew / RTL</li>
+              <li class="tag">Core Web Vitals</li>
+              <li class="tag">SEO</li>
+            </ul>
+          </div>
+
+          <div class="case-grid">
+            <div class="case-block">
+              <h4 class="case-label" lang="en">The problem</h4>
+              <h4 class="case-label" lang="he">הבעיה</h4>
+              <p lang="en">
+                A marketing agency's own site is the hardest brief there is, because the page
+                <em>is</em> the product demo. If the site that sells lead generation does not
+                generate leads, nothing written on it is believable. This one is ours, so
+                there was nowhere to hide.
+              </p>
+              <p lang="he">
+                האתר של סוכנות שיווק הוא הבריף הקשה ביותר שיש, כי הדף עצמו <em>הוא</em> ההדגמה
+                של המוצר. אם האתר שמוכר יצירת לידים לא מייצר לידים, שום דבר שכתוב בו לא
+                אמין. הדף הזה הוא שלנו, אז לא היה איפה להתחבא.
+              </p>
+            </div>
+
+            <div class="case-block">
+              <h4 class="case-label" lang="en">What I built</h4>
+              <h4 class="case-label" lang="he">מה בניתי</h4>
+              <p lang="en">
+                A Hebrew right-to-left landing page built around a single action — booking a
+                free growth call, answered within 24 hours. I designed it, structured the
+                content, built it and host it.
+              </p>
+              <p lang="he">
+                דף נחיתה בעברית ובכתיב מימין לשמאל, שבנוי סביב פעולה אחת — קביעת שיחת צמיחה
+                בחינם, עם מענה תוך 24 שעות. עיצבתי, בניתי את מבנה התוכן, פיתחתי ומאחסן אותו.
+              </p>
+            </div>
+
+            <div class="case-block case-block-wide">
+              <h4 class="case-label" lang="en">Key decisions</h4>
+              <h4 class="case-label" lang="he">ההחלטות המרכזיות</h4>
+              <ul class="case-decisions">
+                <li lang="en">
+                  <strong>Opened with a claim, not a service list.</strong>
+                  The page leads on "we don't build websites, we build lead machines" and only
+                  then says what that involves. A business owner is buying an outcome; the
+                  capability list is what convinces them you can deliver it, not what makes
+                  them want it.
+                </li>
+                <li lang="he">
+                  <strong>נפתח בהצהרה, לא ברשימת שירותים.</strong>
+                  הדף מוביל עם "אנחנו לא בונים אתרים, אנחנו בונים מכונות לידים", ורק אחר כך
+                  מסביר מה זה כולל. בעל עסק קונה תוצאה; רשימת היכולות היא מה שמשכנע אותו שאתה
+                  מסוגל לספק אותה, לא מה שגורם לו לרצות אותה.
+                </li>
+                <li lang="en">
+                  <strong>One action, repeated — every route through the page ends at the same button.</strong>
+                  A page with three competing calls to action converts on none of them.
+                </li>
+                <li lang="he">
+                  <strong>פעולה אחת, חוזרת — כל מסלול בדף מסתיים באותו כפתור.</strong>
+                  דף עם שלוש קריאות לפעולה שמתחרות ביניהן לא ממיר באף אחת מהן.
+                </li>
+                <li lang="en">
+                  <span class="fill">[A technical decision worth naming — how you got the load
+                  time down, how RTL is handled, where it is hosted and why, how leads reach
+                  you.]</span>
+                </li>
+                <li lang="he">
+                  <span class="fill">[החלטה טכנית ששווה לציין — איך הורדת את זמן הטעינה, איך
+                  מטופל ה־RTL, איפה זה מאוחסן ולמה, איך הלידים מגיעים אליך.]</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="case-block case-block-wide">
+              <h4 class="case-label" lang="en">Result</h4>
+              <h4 class="case-label" lang="he">התוצאה</h4>
+              <p class="case-result" lang="en">
+                <span class="fill">[Enquiries per month, load time, Lighthouse score, or a
+                clear before/after if you have no numbers yet.]</span>
+              </p>
+              <p class="case-result" lang="he">
+                <span class="fill">[פניות בחודש, זמן טעינה, ציון Lighthouse, או לפני/אחרי ברור
+                אם עוד אין מספרים.]</span>
+              </p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       4. WHO I AM / ABOUT
+       Short and confident. Seniority is shown by the specifics, not the
+       adjectives — the track-record panel on the right does that job.
+       ======================================================================== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-main">
+          <p class="eyebrow" lang="en">Who I am</p>
+          <p class="eyebrow" lang="he">מי אני</p>
+
+          <h2 class="section-title" lang="en">I have reviewed enough code to know where it breaks</h2>
+          <h2 class="section-title" lang="he">עשיתי מספיק review כדי לדעת איפה קוד נשבר</h2>
+
+          <p class="about-body" lang="en">
+            I started in <strong>an IDF technology unit</strong> as a developer and finished there as a
+            commander and a software-engineering instructor — responsible for teaching the
+            next intake of engineers how to build systems that hold up under pressure.
+            Reviewing other people's code, and explaining exactly why it would fail, was
+            the job.
+          </p>
+          <p class="about-body" lang="he">
+            התחלתי ב<strong>יחידה טכנולוגית בצה״ל</strong> כמפתח וסיימתי שם כמפקד ומדריך הנדסת תוכנה —
+            אחראי ללמד את המחזור הבא של המפתחים איך בונים מערכות שמחזיקות בלחץ. לקרוא קוד
+            של אחרים ולהסביר בדיוק למה הוא ייפול היה התפקיד.
+          </p>
+
+          <p class="about-body" lang="en">
+            I got there early: I completed a <strong>BSc in Computer Science while I was
+            still in high school</strong>, before enlisting. Since the army I have been a
+            developer and a <strong>team lead in startups</strong> — small teams, real
+            deadlines, code that has to survive contact with users.
+          </p>
+          <p class="about-body" lang="he">
+            הגעתי לשם מוקדם: סיימתי <strong>תואר ראשון במדעי המחשב עוד בתיכון</strong>,
+            לפני הגיוס. מאז השחרור אני מפתח ו<strong>ראש צוות בסטארטאפים</strong> —
+            צוותים קטנים, דדליינים אמיתיים, קוד שצריך לשרוד מפגש עם משתמשים.
+          </p>
+
+          <p class="about-body" lang="en">
+            I am also the <strong>technical partner in a digital marketing agency</strong>,
+            where I built the platform the business runs on and I see what the
+            <strong>sponsored campaigns</strong> actually return. That is why I care whether a
+            landing page earns back its ad budget — not just whether it looks good in a
+            screenshot.
+          </p>
+          <p class="about-body" lang="he">
+            אני גם <strong>השותף הטכנולוגי בסוכנות שיווק דיגיטלי</strong>, שם בניתי את
+            הפלטפורמה שהעסק רץ עליה ואני רואה מה <strong>הקמפיינים הממומנים</strong> באמת
+            מחזירים. בגלל זה חשוב לי אם דף נחיתה מחזיר את תקציב הפרסום שלו — ולא רק אם הוא
+            נראה טוב בצילום מסך.
+          </p>
+
+          <p class="about-body" lang="en">
+            AI has made writing code cheap and made reviewing it the bottleneck. That is
+            the gap I work in: I bring the judgement a model cannot, then encode as much of
+            it as possible into rules and agents so it keeps paying off after I leave.
+            I work directly with founders and owners — a call, a fixed scope, and something
+            working.
+          </p>
+          <p class="about-body" lang="he">
+            AI הפך את כתיבת הקוד לזולה ואת ה־review לצוואר הבקבוק. שם אני עובד: מביא את
+            שיקול הדעת שמודל לא יכול, ואז מקודד כמה שיותר ממנו לחוקים ולסוכנים כדי שזה
+            ימשיך להשתלם גם אחרי שאני הולך. אני עובד ישירות מול מייסדים ובעלי עסקים —
+            שיחה, סקופ סגור, ומשהו שעובד.
+          </p>
+        </div>
+
+        <!-- Track record. Facts only — this panel is what a sceptical founder
+             scans instead of reading the paragraphs. -->
+        <aside class="about-side reveal" aria-label="Track record">
+          <h3 class="about-side-title" lang="en">Track record</h3>
+          <h3 class="about-side-title" lang="he">רקע מקצועי</h3>
+
+          <dl class="facts">
+            <div class="fact">
+              <dt lang="en">Military service</dt>
+              <dt lang="he">שירות צבאי</dt>
+              <dd lang="en">IDF technology unit — developer, then commander and software-engineering instructor</dd>
+              <dd lang="he">יחידה טכנולוגית בצה״ל — מפתח, ולאחר מכן מפקד ומדריך הנדסת תוכנה</dd>
+            </div>
+            <div class="fact">
+              <dt lang="en">Startups</dt>
+              <dt lang="he">סטארטאפים</dt>
+              <dd lang="en">Developer and team lead</dd>
+              <dd lang="he">מפתח וראש צוות</dd>
+            </div>
+            <div class="fact">
+              <dt lang="en">Education</dt>
+              <dt lang="he">השכלה</dt>
+              <dd lang="en">BSc Computer Science — completed during high school, before enlisting</dd>
+              <dd lang="he">תואר ראשון במדעי המחשב — הושלם במהלך התיכון, לפני הגיוס</dd>
+            </div>
+            <div class="fact">
+              <dt lang="en">Also</dt>
+              <dt lang="he">בנוסף</dt>
+              <dd lang="en">Technical partner in a digital marketing agency — platform, sites, campaigns</dd>
+              <dd lang="he">שותף טכנולוגי בסוכנות שיווק דיגיטלי — פלטפורמה, אתרים וקמפיינים</dd>
+            </div>
+            <div class="fact">
+              <dt lang="en">Engagements</dt>
+              <dt lang="he">מודלי עבודה</dt>
+              <dd lang="en">One-off audit, retainer, or full build</dd>
+              <dd lang="he">ביקורת חד־פעמית, ריטיינר, או פרויקט מלא</dd>
+            </div>
+            <div class="fact">
+              <dt lang="en">Based in</dt>
+              <dt lang="he">מיקום</dt>
+              <dd lang="en">Tel Aviv &middot; works remotely</dd>
+              <dd lang="he">תל אביב &middot; עובד גם מרחוק</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       5. CONTACT / FINAL CTA
+       ======================================================================== -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="contact-card reveal">
+        <p class="eyebrow" lang="en">Get in touch</p>
+        <p class="eyebrow" lang="he">יצירת קשר</p>
+
+        <h2 class="contact-title" lang="en">Send me the repo, or the problem.</h2>
+        <h2 class="contact-title" lang="he">שלחו לי את הריפו, או את הבעיה.</h2>
+
+        <p class="contact-lead" lang="en">
+          Tell me what you are shipping and what you are worried about. If I am not the right
+          person, I will tell you straight away.
+        </p>
+        <p class="contact-lead" lang="he">
+          ספרו לי מה אתם בונים וממה אתם חוששים. אם אני לא האדם הנכון, אני אגיד
+          לכם את זה מיד.
+        </p>
+
+        <div class="contact-actions">
+          <a class="btn btn-primary btn-lg" href="https://wa.me/972544994592?text=Hi%20Shahar%20%E2%80%94%20I%20found%20your%20site.%20What%20I%20need%20help%20with%3A" lang="en">
+            Message me on WhatsApp
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/><path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.2-.5-.4Z"/></svg>
+          </a>
+          <a class="btn btn-primary btn-lg" href="https://wa.me/972544994592?text=%D7%94%D7%99%D7%99%20%D7%A9%D7%97%D7%A8%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8.%20%D7%9E%D7%94%20%D7%A9%D7%90%D7%A0%D7%99%20%D7%A6%D7%A8%D7%99%D7%9A%3A" lang="he">
+            דברו איתי בוואטסאפ
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/><path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.2-.5-.4Z"/></svg>
+          </a>
+          <a class="btn btn-ghost btn-lg" href="mailto:bro.shahar@gmail.com?subject=Project%20enquiry" lang="en">
+            <span dir="ltr">bro.shahar@gmail.com</span>
+          </a>
+          <a class="btn btn-ghost btn-lg" href="mailto:bro.shahar@gmail.com?subject=%D7%A4%D7%A0%D7%99%D7%99%D7%94%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8" lang="he">
+            <span dir="ltr">bro.shahar@gmail.com</span>
+          </a>
+        </div>
+
+        <!-- Optional social links. Delete any you do not want. -->
+        <ul class="socials">
+          <li>
+            <a href="https://github.com/ShaharBrook">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85l-.01 2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+              GitHub
+            </a>
+          </li>
+          <li>
+            <!-- CUSTOMIZE: replace with your LinkedIn URL -->
+            <a href="https://www.linkedin.com/in/shahar-brook/">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5ZM3 9.5h4V21H3V9.5Zm6.5 0h3.83v1.57h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.3c0-1.26-.02-2.9-1.8-2.9-1.8 0-2.08 1.38-2.08 2.81V21h-4V9.5Z"/></svg>
+              LinkedIn
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p>&copy; <span id="year">2026</span> <span lang="en">Shahar Brook</span><span lang="he">שחר ברוק</span></p>
+    <p class="footer-note" lang="en">Hand-written HTML and CSS. No trackers, no cookie banner.</p>
+    <p class="footer-note" lang="he">נכתב ידנית ב־HTML ו־CSS. בלי טראקרים, בלי באנר עוגיות.</p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js" defer></script>
+
+<!-- Structured data — helps Google show your name correctly. CUSTOMIZE the URLs. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Shahar Brook",
+  "alternateName": "שחר ברוק",
+  "jobTitle": "Freelance Senior Software Engineer",
+  "url": "https://shaharbrook.github.io/",
+  "sameAs": [
+    "https://github.com/ShaharBrook",
+    "https://www.linkedin.com/in/shahar-brook/"
+  ],
+  "knowsLanguage": ["en", "he"],
+  "knowsAbout": [
+    "Code review",
+    "Application security",
+    "AI coding agents",
+    "CRM development",
+    "Web performance"
+  ]
+}
+</script>
+</body>
+</html>

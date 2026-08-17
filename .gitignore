@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+._*
+
+# Editors
+*.swp
+.vscode/
+.idea/
+
+# Local tooling (nothing here is needed to build or serve the site)
+node_modules/
+.cache/
+
+# Case-study working notes — raw material the site is written from, not published.
+greenroom-case-study.md
