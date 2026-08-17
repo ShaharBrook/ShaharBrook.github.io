@@ -15,30 +15,33 @@ robots.txt / sitemap.xml
 
 ---
 
-## Fill these in before you launch
+## Content status
 
-Everything I could not know is highlighted **in yellow on the live page** and
-wrapped in `<span class="fill">…</span>`. Find them all with:
+**Nothing is outstanding.** Every value is real and every placeholder is gone —
+verify with:
 
 ```bash
-grep -n 'class="fill"' index.html
+grep -c 'class="fill"' index.html   # expect 0
 ```
 
-Once you have replaced them, delete the `.fill` rule in `styles.css`
-(section 4) so any you missed become obvious — or leave it in and they will
-keep glowing at you.
+Wired and live:
 
-Beyond those, one link still needs a real value:
-
-| What | Where | Currently |
+| What | Value | Where |
 |---|---|---|
-| **LinkedIn URL** | `#contact` socials + the JSON-LD block at the bottom | `linkedin.com/in/your-handle` |
+| **WhatsApp** | `972544994592` | 6 `wa.me/` links — header, hero, `#contact`, EN + HE each |
+| **Email** | `bro.shahar@gmail.com` | 4 `mailto:` links |
+| **LinkedIn** | `linkedin.com/in/shahar-brook/` | `#contact` socials + JSON-LD |
+| **GitHub** | `github.com/ShaharBrook` | `#contact` socials + JSON-LD |
 
-Already wired and live:
+WhatsApp numbers are international format — no `+` and no leading zero, so an
+Israeli `05X-XXX-XXXX` becomes `9725XXXXXXXX`. To change either contact later:
 
-- **WhatsApp** — `972544994592` across 6 `wa.me/` links (header, hero, `#contact`,
-  EN + HE each). International format, no `+` and no leading zero.
-- **Email** — `bro.shahar@gmail.com` across 4 `mailto:` links.
+```bash
+sed -i '' 's/972544994592/NEW_NUMBER/g' index.html
+sed -i '' 's/bro\.shahar@gmail\.com/NEW@EMAIL.COM/g' index.html
+```
+
+The only thing still worth adding is `assets/img/og.png` — see below.
 
 To change either later:
 
