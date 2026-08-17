@@ -693,6 +693,16 @@ code {
 /* The external-link glyph is a convention, not a direction — never mirror it. */
 .case-link svg { width: 0.85em; height: 0.85em; flex: none; }
 
+/* Sets expectations for a link that leads somewhere gated. Without this a
+   prospect clicks through to a login wall and learns nothing. */
+.case-note {
+  margin-top: 0.5rem;
+  max-width: 32rem;
+  font-size: var(--step--1);
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
 /* Two columns from tablet up; the wide blocks span both. */
 .case-grid {
   display: grid;
