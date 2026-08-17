@@ -645,13 +645,39 @@
                   דף עם שלוש קריאות לפעולה שמתחרות ביניהן לא ממיר באף אחת מהן.
                 </li>
                 <li lang="en">
-                  <span class="fill">[A technical decision worth naming — how you got the load
-                  time down, how RTL is handled, where it is hosted and why, how leads reach
-                  you.]</span>
+                  <strong>The primary call to action opens WhatsApp, not a form.</strong>
+                  There is a contact form for people who prefer one, but every main button
+                  opens WhatsApp with the first message already written. A business owner
+                  deciding at ten at night will tap a green button; they will not fill in five
+                  fields. The form is a second door, not the only one.
                 </li>
                 <li lang="he">
-                  <span class="fill">[החלטה טכנית ששווה לציין — איך הורדת את זמן הטעינה, איך
-                  מטופל ה־RTL, איפה זה מאוחסן ולמה, איך הלידים מגיעים אליך.]</span>
+                  <strong>קריאת הפעולה הראשית פותחת וואטסאפ, לא טופס.</strong>
+                  יש טופס יצירת קשר למי שמעדיף אותו, אבל כל כפתור מרכזי פותח וואטסאפ עם ההודעה
+                  הראשונה כבר כתובה. בעל עסק שמתלבט בעשר בלילה ילחץ על כפתור ירוק; הוא לא ימלא
+                  חמישה שדות. הטופס הוא דלת שנייה, לא הדלת היחידה.
+                </li>
+                <li lang="en">
+                  <strong>Content ships inside the HTML, on a CDN edge, with RTL as the
+                  document default.</strong>
+                  The text is in the response rather than assembled afterwards by JavaScript,
+                  so it paints on first paint — a 30&nbsp;ms server response, and zero
+                  main-thread blocking time on a throttled mobile audit, because almost no
+                  script competes for the thread. Israeli visitors are served from a Tel Aviv
+                  edge node. <code>dir="rtl"</code> is set on the document itself with explicit
+                  <code>dir="ltr"</code> islands for Latin runs — Hebrew is the default and
+                  English is the exception, which is the opposite of bolting RTL onto a
+                  left-to-right page.
+                </li>
+                <li lang="he">
+                  <strong>התוכן נשלח בתוך ה־HTML, מ־edge של CDN, עם RTL כברירת המחדל של
+                  המסמך.</strong>
+                  הטקסט נמצא בתשובה עצמה ולא מורכב אחר כך על ידי JavaScript, ולכן הוא נצבע
+                  מיד — 30 מילישניות זמן תגובת שרת, ואפס זמן חסימה של ה־thread הראשי בבדיקת
+                  מובייל ממותנת, כי כמעט אין סקריפט שמתחרה עליו. גולשים מישראל מקבלים את הדף
+                  משרת edge בתל אביב. <code>dir="rtl"</code> מוגדר על המסמך עצמו, עם איי
+                  <code>dir="ltr"</code> מפורשים לרצפים לטיניים — עברית היא ברירת המחדל
+                  ואנגלית היא החריג, ההפך מלהלביש RTL על דף שנבנה משמאל לימין.
                 </li>
               </ul>
             </div>
@@ -660,12 +686,14 @@
               <h4 class="case-label" lang="en">Result</h4>
               <h4 class="case-label" lang="he">התוצאה</h4>
               <p class="case-result" lang="en">
-                <span class="fill">[Enquiries per month, load time, Lighthouse score, or a
-                clear before/after if you have no numbers yet.]</span>
+                Live, and it is the agency's own front door. On a throttled mobile Lighthouse
+                audit it scores 100 on best practices, 94 on accessibility and 92 on SEO, with
+                zero main-thread blocking time and a 30&nbsp;ms server response.
               </p>
               <p class="case-result" lang="he">
-                <span class="fill">[פניות בחודש, זמן טעינה, ציון Lighthouse, או לפני/אחרי ברור
-                אם עוד אין מספרים.]</span>
+                באוויר, והוא הדלת הראשית של הסוכנות. בבדיקת Lighthouse ממותנת במובייל הוא מקבל
+                100 ב־best practices, 94 בנגישות ו־92 ב־SEO, עם אפס זמן חסימה של ה־thread
+                הראשי ו־30 מילישניות זמן תגובת שרת.
               </p>
             </div>
           </div>

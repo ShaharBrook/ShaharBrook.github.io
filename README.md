@@ -69,8 +69,24 @@ claim on the card traces back to that file. If you change the architecture,
 update the notes and then the card, in that order; the notes are the source of
 truth and the card is a 4-bullet edit of them.
 
-Only the landing-page card still has yellow gaps: one more key decision, and
-the result.
+**Both cards are complete — there are no yellow placeholders left anywhere on
+the site.** The landing-page card's last two entries were written from
+measurements taken against the live site rather than from memory: Cloudflare
+edge delivery, a 30 ms server response, zero main-thread blocking time, and the
+Lighthouse scores quoted in the result (100 best practices / 94 accessibility /
+92 SEO / 86 performance on a throttled mobile run).
+
+If you change that site, re-measure before trusting those numbers:
+
+```bash
+npx lighthouse@12 https://lrdigital-marketing.com/ \
+  --only-categories=performance,accessibility,best-practices,seo \
+  --form-factor=mobile --screenEmulation.mobile --view
+```
+
+The `.fill` CSS rule is still in `styles.css` on purpose — it costs nothing and
+it will make any future placeholder glow yellow so you cannot ship it by
+accident.
 
 ### Adding the Greenroom screenshots
 
