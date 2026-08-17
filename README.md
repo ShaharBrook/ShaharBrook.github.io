@@ -72,6 +72,48 @@ truth and the card is a 4-bullet edit of them.
 Only the landing-page card still has yellow gaps: one more key decision, and
 the result.
 
+### Adding the Greenroom screenshots
+
+The gallery is already built — CSS, captions in both languages, and a native
+`<dialog>` lightbox. It is **commented out** in `index.html` (search for
+`SCREENSHOTS — currently disabled`) because a broken `<img>` looks worse than
+no gallery. Three steps:
+
+1. **Capture from a demo account with invented client data.** Not the real
+   studio's data. Before publishing, check browser tabs, tooltips,
+   notification badges and autocomplete dropdowns — that is where real data
+   survives a redaction pass. Cropping beats blurring; blurred regions look
+   evasive and are occasionally recoverable.
+
+2. **Convert to WebP at 1600px.** No extra tooling needed on macOS:
+
+   ```bash
+   sips -Z 1600 -s format webp -s formatOptions 80 \
+     raw-board.png --out assets/img/greenroom-board.webp
+   ```
+
+   Expected filenames: `greenroom-board.webp`, `greenroom-campaign.webp`,
+   `greenroom-files.webp`. Keep each **under ~150 KB** — images are by far the
+   easiest way to lose the Lighthouse 100 this site currently scores. Check
+   with `ls -lh assets/img/`.
+
+3. **Uncomment the block** — delete its opening `<!-- …` line and the closing
+   `… -->` line. Then rewrite each `alt` and each caption to match what you
+   actually captured. The `alt` is read aloud by screen readers, so it should
+   describe the screen rather than repeat the caption.
+
+The gallery does nothing until then: no images, no requests, no JS runs.
+
+**On the lightbox:** each screenshot is a plain
+`<a class="shot" href="full-size.webp">` that already works with JavaScript
+off — it just opens the image. `main.js` upgrades it to a `<dialog>`, which
+brings Escape-to-close and focus trapping for free. Same progressive-
+enhancement pattern as the language switch.
+
+⚠️ **HTML comments cannot nest.** If you add a `<!-- note -->` inside the
+disabled block, its `-->` terminates the outer comment early and the rest of
+the gallery goes live as broken markup. Use a plain-text line instead.
+
 **Note on the About section:** this one is built from what you told me — an IDF
 technology unit (developer → commander → software-engineering instructor), BSc
 in Computer Science finished during high school before enlisting, developer and

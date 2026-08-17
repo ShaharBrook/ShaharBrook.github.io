@@ -74,6 +74,40 @@
   // Sync the button state with whatever the inline <head> script decided.
   setLanguage(root.lang === 'he' ? 'he' : 'en', false);
 
+  /* ---- 1b. Screenshot lightbox -------------------------------------------
+     Progressive enhancement. Each screenshot is a plain
+     <a class="shot" href="full-size.webp"> that already works with no JS —
+     it just opens the image. With JS we upgrade it to a native <dialog>,
+     which brings Escape-to-close and focus trapping for free.
+
+     Does nothing at all until the gallery markup is uncommented.
+     -------------------------------------------------------------------- */
+  var shots = document.querySelectorAll('a.shot');
+  if (shots.length && typeof HTMLDialogElement === 'function') {
+    var box = document.createElement('dialog');
+    box.className = 'lightbox';
+    box.innerHTML =
+      '<img alt=""><button type="button" class="lightbox-close" aria-label="Close">×</button>';
+    document.body.appendChild(box);
+    var full = box.querySelector('img');
+
+    for (var k = 0; k < shots.length; k++) {
+      shots[k].addEventListener('click', function (event) {
+        event.preventDefault();
+        var thumb = this.querySelector('img');
+        full.src = this.getAttribute('href');
+        full.alt = thumb ? thumb.alt : '';
+        box.showModal();
+      });
+    }
+    // Click the backdrop or the close button to dismiss.
+    box.addEventListener('click', function (event) {
+      if (event.target === box || event.target.closest('.lightbox-close')) box.close();
+    });
+    // Drop the src on close so a large image is not held in memory.
+    box.addEventListener('close', function () { full.removeAttribute('src'); });
+  }
+
   /* ---- 2. Footer year -------------------------------------------------- */
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
