@@ -140,9 +140,37 @@ team lead in startups, and technical partner in a digital marketing agency. The
 unit is deliberately unnamed. Check the wording says what you want it to say
 publicly, in both languages.
 
-**Optional but worth it:** add `assets/img/og.png` (1200×630) so links to the
-site unfurl with a preview card in Slack, WhatsApp and LinkedIn. The
-`og:image` meta tag already points at that path.
+### Images
+
+The site deliberately ships **no raster images in the page itself**. The four
+service icons, the social icons and the external-link glyph are all inline
+SVG; the hero glow and the contact card are CSS gradients. That is most of the
+reason it is ~25 KB and scores 100 on performance. Adding photographs is the
+easiest way to lose that, so weigh each one.
+
+What exists:
+
+| File | What it is | Loaded by |
+|---|---|---|
+| `assets/img/favicon.svg` | Vector favicon, accent-coloured | Browsers, tab bar |
+| `assets/img/og.png` | 1200×630 link-preview card | WhatsApp / LinkedIn / Slack crawlers only — never by a visitor |
+
+**Regenerating the preview card.** It is generated from HTML, not designed in
+an image editor, so it stays in sync with the site's type and colour:
+
+```bash
+npm install --no-save playwright     # once
+node tools/og-render.mjs             # writes assets/img/og.png
+```
+
+Edit `tools/og-template.html` to change the wording. Keep the headline to two
+lines — three overflows the card at that size.
+
+⚠️ **The link preview is always English.** Crawlers read the static `<head>`
+and do not run the JavaScript that swaps the title and description, so a
+Hebrew visitor sharing `?lang=he` still gets the English card. Fixing that
+properly needs a second HTML file (`he.html`) with Hebrew `og:` tags. Worth
+doing only if most of your sharing happens in Hebrew.
 
 ---
 
