@@ -91,47 +91,78 @@ The `.fill` CSS rule is still in `styles.css` on purpose — it costs nothing an
 it will make any future placeholder glow yellow so you cannot ship it by
 accident.
 
-### Adding the Greenroom screenshots
+### The Greenroom screenshots
 
-The gallery is already built — CSS, captions in both languages, and a native
-`<dialog>` lightbox. It is **commented out** in `index.html` (search for
-`SCREENSHOTS — currently disabled`) because a broken `<img>` looks worse than
-no gallery. Three steps:
+**The gallery is live** — three screenshots under "Inside the product" on the
+Greenroom card: the task board, the task detail panel (showing the
+client-visibility flag), and a client file repository with a video.
 
-1. **Capture from a demo account with invented client data.** Not the real
-   studio's data. Before publishing, check browser tabs, tooltips,
-   notification badges and autocomplete dropdowns — that is where real data
-   survives a redaction pass. Cropping beats blurring; blurred regions look
-   evasive and are occasionally recoverable.
+They were captured from a **seeded demo database**, not the real system. That
+matters: the real Greenroom holds a client's data, and publishing it would
+contradict the case study it illustrates.
 
-2. **Convert to WebP at 1600px.** No extra tooling needed on macOS:
+#### Regenerating them
 
-   ```bash
-   sips -Z 1600 -s format webp -s formatOptions 80 \
-     raw-board.png --out assets/img/greenroom-board.webp
-   ```
+The Greenroom repo already ships `pnpm db:demo`, which loads invented clients
+(Aurora Coffee Roasters, Kestrel Outdoor, Vela Studios …) on `example.com`
+addresses and writes real image and video files with thumbnails.
 
-   Expected filenames: `greenroom-board.webp`, `greenroom-campaign.webp`,
-   `greenroom-files.webp`. Keep each **under ~150 KB** — images are by far the
-   easiest way to lose the Lighthouse 100 this site currently scores. Check
-   with `ls -lh assets/img/`.
+**It truncates every table**, and `prisma/guard.ts` refuses to run against a
+database holding non-fixture accounts. Do not `--force` it against your dev
+database — seed a throwaway one instead:
 
-3. **Uncomment the block** — delete its opening `<!-- …` line and the closing
-   `… -->` line. Then rewrite each `alt` and each caption to match what you
-   actually captured. The `alt` is read aloud by screen readers, so it should
-   describe the screen rather than repeat the caption.
+```bash
+cd ~/projects/greenroom
+pnpm infra:up
 
-The gallery does nothing until then: no images, no requests, no JS runs.
+# one-off: a database that is not your dev database
+docker compose exec -T postgres psql -U greenroom -d postgres \
+  -c 'create database greenroom_demo;'
+
+DEMO="postgresql://greenroom:greenroom@localhost:5433/greenroom_demo"
+DATABASE_URL="$DEMO" pnpm --filter @greenroom/api db:migrate:deploy
+DATABASE_URL="$DEMO" pnpm --filter @greenroom/api db:demo
+
+# dev login mints sessions without Google; refused when NODE_ENV=production
+DATABASE_URL="$DEMO" AUTH_DEV_LOGIN=true pnpm --filter @greenroom/api dev
+pnpm --filter @greenroom/web dev
+```
+
+Then sign in at `http://localhost:5173/login` as `maya@cytactic.com` and
+capture at a 1600×1000 viewport with `deviceScaleFactor: 2`.
+
+#### Converting
+
+⚠️ **`sips` cannot write WebP** on macOS 15 — it reads the format but fails
+with `Can't write format: org.webmproject.webp`. Use `cwebp`
+(`brew install webp`), which also does the downscale in one pass:
+
+```bash
+cwebp -q 80 -resize 1600 0 shot.png -o assets/img/greenroom-board.webp
+```
+
+Current sizes: 48 KB, 55 KB, 34 KB — 137 KB for all three. Keep each under
+~150 KB. Check with `ls -lh assets/img/`.
+
+#### Two things to watch
+
+**The seeded team users are `@cytactic.com`** — your employer's domain, baked
+into ~25 files including `AUTH_ALLOWED_DOMAINS` and hundreds of test
+assertions, so it is not worth renaming. It is only *visible* on the
+dashboard (`/`), in the account area. Every other screen is clean, which is
+why none of the three published screenshots is the dashboard. **If you add a
+dashboard screenshot, that email will be in it.**
+
+**HTML comments cannot nest.** If you disable the gallery again by wrapping it
+in `<!-- -->`, make sure there is no `<!-- note -->` inside it — the inner
+`-->` terminates the outer comment early and the rest goes live as broken
+markup.
 
 **On the lightbox:** each screenshot is a plain
 `<a class="shot" href="full-size.webp">` that already works with JavaScript
-off — it just opens the image. `main.js` upgrades it to a `<dialog>`, which
-brings Escape-to-close and focus trapping for free. Same progressive-
-enhancement pattern as the language switch.
-
-⚠️ **HTML comments cannot nest.** If you add a `<!-- note -->` inside the
-disabled block, its `-->` terminates the outer comment early and the rest of
-the gallery goes live as broken markup. Use a plain-text line instead.
+off — it just opens the image. `main.js` upgrades it to a native `<dialog>`,
+which brings Escape-to-close and focus trapping for free. Same
+progressive-enhancement pattern as the language switch.
 
 **Note on the About section:** this one is built from what you told me — an IDF
 technology unit (developer → commander → software-engineering instructor), BSc
