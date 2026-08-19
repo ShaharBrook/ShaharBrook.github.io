@@ -768,10 +768,21 @@ code {
   color: var(--ink-3);
 }
 
-/* Native <dialog>: Escape-to-close and focus trapping for free, no library. */
+/* Native <dialog>: Escape-to-close and focus trapping for free, no library.
+
+   `inset: 0` + `margin: auto` is what centres a modal dialog on both axes.
+   The UA stylesheet already sets both, but the global `* { margin: 0 }` reset
+   at the top of this file overrides the margin — which collapses the dialog
+   into the top-left corner. Restated here explicitly so the centring does not
+   depend on a rule the reset is fighting. */
 .lightbox {
-  max-width: min(96vw, 1400px);
-  max-height: 92vh;
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: fit-content;
+  height: fit-content;
+  max-width: min(94vw, 1400px);
+  max-height: 90vh;
   padding: 0;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -779,7 +790,8 @@ code {
   overflow: hidden;
 }
 .lightbox::backdrop { background: rgba(6, 10, 14, 0.82); }
-.lightbox img { width: 100%; height: auto; max-height: 92vh; object-fit: contain; }
+.lightbox img { display: block; max-width: min(94vw, 1400px); max-height: 90vh;
+                width: auto; height: auto; object-fit: contain; }
 
 .lightbox-close {
   position: absolute;
