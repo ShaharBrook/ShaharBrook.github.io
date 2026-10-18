@@ -293,6 +293,10 @@ html[lang="he"] .case-label { letter-spacing: 0.02em; }
 @media (min-width: 34em) { .grid-services { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 66em) { .grid-services { grid-template-columns: repeat(4, 1fr); } }
 
+/* Tutoring grid: three cards, so 1 column on a phone and 3 once they fit. */
+.grid-tutoring { grid-template-columns: 1fr; }
+@media (min-width: 56em) { .grid-tutoring { grid-template-columns: repeat(3, 1fr); } }
+
 .accent-text { color: var(--accent); }
 
 
@@ -538,6 +542,7 @@ code {
 .site-nav ul { display: flex; gap: 0.35rem; }
 .site-nav a {
   display: inline-block;
+  white-space: nowrap;
   padding: 0.45rem 0.75rem;
   border-radius: 8px;
   color: var(--ink-3);

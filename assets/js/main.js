@@ -1,5 +1,5 @@
 /* ==========================================================================
-   main.js — four small progressive enhancements. ~2KB, no dependencies.
+   main.js: four small progressive enhancements. ~2KB, no dependencies.
 
      1. Language switch (EN / עב) without a page reload
      2. Current year in the footer
@@ -7,7 +7,7 @@
      4. Fade-in on scroll for cards (respects prefers-reduced-motion)
 
    Everything here is optional. With JavaScript disabled the page still
-   renders in full, and the language links still work — they just reload
+   renders in full, and the language links still work; they just reload
    with ?lang=he instead of swapping in place.
    ========================================================================== */
 
@@ -21,7 +21,7 @@
   var root = document.documentElement;
 
   /* ---- 1. Language switch -----------------------------------------------
-     The visible copy is swapped by CSS off <html lang> — see section 2b of
+     The visible copy is swapped by CSS off <html lang>; see section 2b of
      styles.css. All this does is flip the attribute and keep the things that
      live outside the <body> (title, meta description) in sync.
 
@@ -29,11 +29,11 @@
      -------------------------------------------------------------------- */
   var LANG_META = {
     en: {
-      title: 'Shahar Brook — Ship AI-generated code safely',
+      title: 'Shahar Brook | Ship AI-generated code safely',
       description: 'Senior engineer helping teams ship AI-generated code safely: code review, security checks, and the agents and guardrails that keep a codebase clean. Also builds CRMs, products and landing pages.'
     },
     he: {
-      title: 'שחר ברוק — לשלוח קוד שנכתב ב־AI בלי הסיכון',
+      title: 'שחר ברוק | לשלוח קוד שנכתב ב־AI בלי הסיכון',
       description: 'מהנדס תוכנה בכיר: review ואבטחה לקוד שנכתב ב־AI, סוכנים וחוקים ששומרים על הקוד נקי, ובניית מוצרים, מערכות CRM ודפי נחיתה.'
     }
   };
@@ -76,7 +76,7 @@
 
   /* ---- 1b. Screenshot lightbox -------------------------------------------
      Progressive enhancement. Each screenshot is a plain
-     <a class="shot" href="full-size.webp"> that already works with no JS —
+     <a class="shot" href="full-size.webp"> that already works with no JS:
      it just opens the image. With JS we upgrade it to a native <dialog>,
      which brings Escape-to-close and focus trapping for free.
 
